@@ -1,0 +1,315 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YT-Video-Downloader</title>
+    <link rel="icon" href="../static/images/download.png" type="image/png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>      
+    <style> 
+        * {
+            margin: 0;
+            padding: 0; 
+            box-sizing: border-box;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        }
+        
+        body {
+            height: 100vh;
+            background-color: #050505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            align-items: center;
+            border-radius: 20px;
+            background: #050505;
+            box-shadow: -15px 15px 26px #020202, 15px -15px 26px #080808;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            width: 50rem; 
+            height:35rem;
+        }
+        
+        .container__header {
+            margin-top: 4rem;
+        }
+        
+        .container__header h1 {
+            color: #00b3ff;
+            text-shadow: 0 0 10px rgba(0, 179, 255, 0.8);
+        }
+        
+        .container__body {
+            width: 80%;
+            height: 90px;
+            margin-top: 8rem;
+            border: none;
+            border-radius: 5px;
+            background: #050505;
+            box-shadow: -5px 5px 10px #020202,
+                        5px -5px 10px #080808;
+        }
+        
+        .container__body__link {
+            margin-top: 15px; 
+            width: 100%;
+        }
+        
+        .container__footer {
+            width: 80%;
+            height: 90px;
+            margin-top: 4rem;
+        }
+        
+        .container__body__link #link {
+            border: none;
+            border-radius: 5px;
+            background: #050505;
+            box-shadow: inset -5px 5px 10px #020202,
+                        inset 5px -5px 10px #080808;
+            width: 95%;
+            height: 60px;
+            text-align: center;
+            color: #00b3ff;
+            font-weight: bold;
+            font-size: 1.2rem
+        }
+        
+        .container__footer .btn {
+            border: none;
+            width: 170px;
+            height: 60px;
+            border-radius: 0px;
+            background: linear-gradient(225deg, #050505, #050505);
+            box-shadow: -5px 5px 0px #020202, 5px -5px 0px #080808;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-right: 40px;
+        }
+        
+        .container__footer .btn:hover {
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+            border-radius: 0px;
+            background: #00b3ff;
+            box-shadow: inset -7px 7px 14px #004866,
+                        inset 7px -7px 14px #00ffff;
+        }
+        
+        .container__footer select {
+            border-radius: 0px;
+            background: linear-gradient(225deg, #050505, #050505);
+            box-shadow: -5px 5px 0px #020202, 5px -5px 0px #080808;
+            color: white;
+            border: none;
+            width: 170px;
+            height: 60px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        
+        .container__footer select:hover {
+            cursor: pointer;
+            border-radius: 0px;
+            background: linear-gradient(225deg, #050505, #050505);
+            box-shadow: -5px 5px 0px #020202, 5px -5px 0px #080808;
+            color: #00b3ff;
+        }
+        
+        .container__footer option {
+            background-color: transparent;
+            color: black;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        footer {
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 30px; 
+          }
+
+          @media only screen and (max-width: 574px) {
+            .container {
+                width: 25rem; 
+                height:30rem;
+            }
+            
+            .container__header {
+                margin-top: 3rem;
+            }
+            
+            .container__header h1 {
+                font-size:1.3rem;
+            }
+            
+            .container__body {
+                width: 90%;
+                height: 90px;
+                margin-top: 4rem;       
+            }
+            
+            .container__body__link {
+                margin-top: 15px; 
+                width: 100%;
+            }
+            
+            .container__body__link #link {
+                font-size: 0.9rem
+            }
+            
+            .container__footer .btn {
+                border: none;
+                width: 100px;
+                height: 50px;
+                font-size: 0.9rem;
+                font-weight: bold;
+                margin-right: 30px;
+            }
+            
+            .container__footer select {
+                color: white;
+                border: none;
+                width: 100px;
+                height: 50px;
+                font-size: 0.9rem;
+            }
+            }
+    </style>
+</head>
+<body>
+<form method="post" action="{% url 'index' %}">
+    {% csrf_token %}
+    <div class="container">
+        <div class="container__header">
+            <h1>YouTube Video Downloader</h1>
+        </div>
+
+        <div class="container__body">
+            <div class="container__body__link">
+                <input type="text" value="" name="link" id="link" placeholder="Paste your video link here" ></label>
+            </div>
+        </div>
+
+        <div class="container__footer">
+            <input type="submit" value="Download" name="Download" id="download" class="btn">
+            <select name="quality" required>
+                <option value="1080p">1080p</option>
+                <option value="720p">720p</option>
+                <option value="480p">480p</option>
+                <option value="360p">360p</option>
+                <option value="240p">240p</option>
+                <option value="144p">144p</option>
+                <option value="mp3">MP3</option>
+            </select>
+            <script>
+                {% if message %}
+                    $(document).ready(function () {
+                        {% if 'succès' in message %}
+                            showSuccessAlert('{{ message }}');
+                        {% else %}
+                            showErrorAlert('Veuillez fournir un lien YouTube valide !');
+                        {% endif %}
+                    });
+
+                    function showSuccessAlert(message) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Téléchargement réussi',
+                            text: message,
+                        });
+                    }
+
+                    function showErrorAlert(message) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erreur!',
+                            text: message,
+                        });
+                    }
+                {% endif %}
+            </script>
+            <script>
+                window.addEventListener('offline', function () {
+                    showAlert('La connexion internet est perdue.');
+                });
+
+                function showAlert(message) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erreur de connexion',
+                        text: message,
+                    });
+                }
+            </script>
+        </div>
+    </div>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    document.getElementById('download').addEventListener('click', async () => {
+        const linkInput = document.getElementById('link');
+        const videoUrl = linkInput.value.trim();
+
+        if (!videoUrl) {
+            showValidationError('Veuillez fournir un lien YouTube.');
+            return;
+        }
+
+        Swal.fire({
+            title: 'Téléchargement en cours',
+            html: 'Veuillez patienter...',
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            },
+            onOpen: async () => {
+                try {
+                    showSuccessAlert('Votre fichier a été téléchargé avec succès!');
+                } catch (error) {
+                    showErrorAlert('Une erreur s\'est produite lors du téléchargement.');
+                }
+            },
+        });
+    });
+
+    function showValidationError(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erreur de validation',
+            text: message,
+        });
+    }
+
+    function showSuccessAlert(message) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Téléchargement réussi',
+            text: message,
+        });
+    }
+
+    function showErrorAlert(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erreur!',
+            text: message,
+        });
+    }
+</script>
+<footer>
+    <h5>Copyright © : Mohamed Amine Welfeki</h5>
+</footer>
+</body>
+</html>
